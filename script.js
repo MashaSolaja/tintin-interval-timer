@@ -10,7 +10,8 @@ let running = false;
 const settingsScreen = document.getElementById("settingsScreen");
 const timerScreen = document.getElementById("timerScreen");
 
-const sessionSelect = document.getElementById("sessionSelect");
+const minutesSelect = document.getElementById("minutesSelect");
+const secondsSelect = document.getElementById("secondsSelect");
 const roundsSelect = document.getElementById("roundsSelect");
 
 const timerEl = document.getElementById("timer");
@@ -19,17 +20,27 @@ const roundEl = document.getElementById("round");
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 
-function populateSelectors() {
-  // Session length: 5s → 300s (increments of 5)
-  for (let i = 5; i <= 300; i += 5) {
+function populateTimeSelectors() {
+  // Minutes: 0 → 10
+  for (let m = 0; m <= 10; m++) {
     const option = document.createElement("option");
-    option.value = i;
-    option.textContent = `${i} seconds`;
-    if (i === 30) option.selected = true;
-    sessionSelect.appendChild(option);
+    option.value = m;
+    option.textContent = m.toString().padStart(2, "0");
+    if (m === 0) option.selected = true;
+    minutesSelect.appendChild(option);
   }
 
-  // Rounds: 1 → 15
+  // Seconds: 0 → 55 (increments of 5)
+  for (let s = 0; s < 60; s += 5) {
+    const option = document.createElement("option");
+    option.value = s;
+    option.textContent = s.toString().padStart(2, "0");
+    if (s === 30) option.selected = true;
+    secondsSelect.appendChild(option);
+  }
+}
+
+function populateRoundsSelector() {
   for (let i = 1; i <= 15; i++) {
     const option = document.createElement("option");
     option.value = i;
@@ -85,15 +96,31 @@ function stopTimer() {
 
 // Event handlers
 startButton.addEventListener("click", () => {
-  interval = parseInt(sessionSelect.value, 10);
+  // Get minutes and seconds from the new selectors
+  const minutes = parseInt(minutesSelect.value, 10);
+  const seconds = parseInt(secondsSelect.value, 10);
+
+  // Combine into total seconds for the timer
+  interval = minutes * 60 + seconds;
+
+  // Safety check
+  if (interval === 0) {
+    alert("Please select a session length.");
+    return;
+  }
+
+  // Get rounds from rounds selector
   totalRounds = parseInt(roundsSelect.value, 10);
 
+  // Initialize timer
   timeRemaining = interval;
   currentRound = 1;
 
+  // Update UI and start
   updateUI();
   startTimer();
 });
 
 stopButton.addEventListener("click", stopTimer);
-populateSelectors();
+populateTimeSelectors();
+populateRoundsSelector();
