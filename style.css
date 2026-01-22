@@ -45,3 +45,13 @@ input {
 .hidden {
   display: none;
 }
+
+select {
+  margin-top: 6px;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: none;
+  background: #fff;
+  color: #000;
+}
