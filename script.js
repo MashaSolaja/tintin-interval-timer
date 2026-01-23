@@ -121,8 +121,8 @@ function startTimer() {
 function stopTimer() {
   running = false;
   clearInterval(timerId);
-  timerId = null;
-  showSettingsScreen();
+  setupScreen.classList.remove("hidden");
+  timerScreen.classList.add("hidden");
 }
 
 // Event handlers
