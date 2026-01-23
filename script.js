@@ -20,6 +20,10 @@ const roundEl = document.getElementById("round");
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
 
+const displayModeSelect = document.getElementById("displayModeSelect");
+const numberDisplay = document.getElementById("numberDisplay");
+const radialContainer = document.getElementById("radialContainer");
+
 function populateTimeSelectors() {
   // Minutes: 0 → 10
   for (let m = 0; m <= 10; m++) {
@@ -61,11 +65,31 @@ function showSettingsScreen() {
   settingsScreen.classList.remove("hidden");
 }
 
-// Timer logic
 function updateUI() {
-  timerEl.textContent = timeRemaining;
-  roundEl.textContent = `Round ${currentRound} of ${totalRounds}`;
+  const minutes = Math.floor(timeRemaining / 60);
+  const seconds = timeRemaining % 60;
+  const formattedTime =
+    `${minutes.toString().padStart(2, "0")}:${seconds.toString().padStart(2, "0")}`;
+
+  roundDisplay.textContent = `Round ${currentRound} of ${totalRounds}`;
+
+  const mode = displayModeSelect.value;
+
+  if (mode === "number") {
+    numberDisplay.textContent = formattedTime;
+    numberDisplay.classList.remove("hidden");
+    radialContainer.classList.add("hidden");
+  } else {
+    timeDisplay.textContent = formattedTime;
+
+    const progressPercent = Math.round((timeRemaining / interval) * 100);
+    radialProgress.style.setProperty("--value", progressPercent);
+
+    radialContainer.classList.remove("hidden");
+    numberDisplay.classList.add("hidden");
+  }
 }
+
 
 function startTimer() {
   running = true;
@@ -82,7 +106,8 @@ function startTimer() {
       }
       timeRemaining = interval;
     }
-
+    numberDisplay.classList.add("hidden");
+    radialContainer.classList.add("hidden");
     updateUI();
   }, 1000);
 }
