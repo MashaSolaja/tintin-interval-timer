@@ -5,40 +5,98 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Interval Timer</title>
 
-  <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="style.css">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <!-- DaisyUI + Tailwind -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/daisyui@4.4.24/dist/full.min.css"
+    rel="stylesheet"
+    type="text/css"
+  />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <!-- SETTINGS SCREEN -->
-  <div class="container" id="settingsScreen">
-    <h2>Interval Timer</h2>
 
-    <label>
-      Session length
-      <div class="time-selectors">
-        <select id="minutesSelect"></select>
-        <span>:</span>
-        <select id="secondsSelect"></select>
+<body class="min-h-screen flex items-center justify-center bg-base-200">
+
+  <!-- SETUP SCREEN -->
+  <div id="setupScreen" class="w-full max-w-sm p-6 space-y-6">
+
+    <!-- Session length -->
+    <label class="block">
+      <span class="label-text">Session length</span>
+      <div class="time-selectors mt-2">
+        <select id="minutesSelect" class="select select-bordered w-full"></select>
+        <span class="mx-2 text-xl">:</span>
+        <select id="secondsSelect" class="select select-bordered w-full"></select>
       </div>
     </label>
 
-    <label>
-      Number of rounds
-      <select id="roundsSelect"></select>
+    <!-- Rounds -->
+    <label class="block">
+      <span class="label-text">Rounds</span>
+      <select id="roundsSelect" class="select select-bordered w-full mt-2"></select>
     </label>
 
-    <button id="startButton">Start</button>
+    <!-- Display mode -->
+    <label class="block">
+      <span class="label-text">Display style</span>
+      <select
+        id="displayModeSelect"
+        class="select select-bordered w-full mt-2"
+      >
+        <option value="number" selected>Number</option>
+        <option value="radial">Radial</option>
+      </select>
+    </label>
+
+    <!-- Start button -->
+    <button
+      id="startButton"
+      class="btn btn-primary w-full"
+    >
+      Start
+    </button>
+
   </div>
 
   <!-- TIMER SCREEN -->
-  <div class="container hidden" id="timerScreen">
-    <h2 id="round">Round 1 of 10</h2>
-    <div id="timer">30</div>
-    <button id="stopButton">Stop</button>
+  <div
+    id="timerScreen"
+    class="hidden flex flex-col items-center justify-center space-y-6"
+  >
+
+    <!-- Number countdown -->
+    <div
+      id="numberDisplay"
+      class="text-6xl font-bold hidden"
+    ></div>
+
+    <!-- Radial countdown -->
+    <div id="radialContainer" class="hidden">
+      <div
+        id="radialProgress"
+        class="radial-progress text-primary"
+        style="--value:100; --size:12rem; --thickness:10px;"
+        role="progressbar"
+      >
+        <span id="timeDisplay" class="text-3xl font-bold"></span>
+      </div>
+    </div>
+
+    <!-- Round info -->
+    <div
+      id="roundDisplay"
+      class="text-lg"
+    ></div>
+
+    <!-- Stop button (optional but recommended) -->
+    <button
+      id="stopButton"
+      class="btn btn-outline mt-4"
+    >
+      Stop
+    </button>
+
   </div>
 
   <script src="script.js"></script>
