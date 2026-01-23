@@ -95,6 +95,11 @@ function startTimer() {
   running = true;
   showTimerScreen();
 
+  numberDisplay.classList.add("hidden");
+  radialContainer.classList.add("hidden");
+
+  updateUI();
+
   timerId = setInterval(() => {
     timeRemaining--;
 
@@ -106,8 +111,6 @@ function startTimer() {
       }
       timeRemaining = interval;
     }
-    numberDisplay.classList.add("hidden");
-    radialContainer.classList.add("hidden");
     updateUI();
   }, 1000);
 }
